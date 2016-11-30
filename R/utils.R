@@ -31,6 +31,51 @@ setMethod("setDesign",
 
 
 # ---------------------------------------------------------------------------- #
+#' renameSamples
+#'
+#' set new sample names for a qPCR object
+#'
+#' @param pcr qPCR object to work on
+#' @param groups character vector of sample groups
+#'
+#' @importFrom xlsx read.xlsx
+#' @importFrom data.table data.table setnames set
+#' @export
+setGeneric(
+  name="renameSamples",
+  def=function(pcr, ...) {
+    standardGeneric("renameSamples")
+  }
+)
+setMethod("renameSamples",
+          signature("qPCR"),
+          definition=function(pcr, old, new) {
+
+            # stay on the character side of life
+            old <- as.character(old)
+
+            # exceptions!
+            if (length(old) != length(new))
+              stop("different number of old and new sample names supplied: ", length(old), " vs. ", length(new), ".")
+
+            if (!identical(sort(old), sort(as.character(levels(pcr@data$sample)))))
+              stop("old sample names not identical to sample names in qPCR object.")
+
+            # reorder first
+            pcr@data$sample <- factor(pcr@data$sample, levels=old)
+            # aaand rename
+            #pcr@data$sample <- factor(pcr@data$sample, levels=new)
+            levels(pcr@data$sample) <- new
+
+            return(pcr)
+          }
+)
+
+
+
+
+
+# ---------------------------------------------------------------------------- #
 #' relExp
 #'
 #' calculate relative expression for a qPCR run
