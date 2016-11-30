@@ -13,5 +13,9 @@ An S4 class to represent a qPCR experiment.
 \item{\code{data}}{data.table with qPCR data}
 
 \item{\code{metadata}}{data.table with experimental metadata}
+
+\item{\code{design}}{factor vector of sample groupings for barplot coloring}
+
+\item{\code{pdata}}{processed data (e.g. recalculated relative expression)}
 }}
 
