@@ -4,7 +4,7 @@
 \alias{plotRQ}
 \title{readPCR}
 \usage{
-plotRQ(pcr)
+plotRQ(pcr, ...)
 }
 \arguments{
 \item{filename}{}
