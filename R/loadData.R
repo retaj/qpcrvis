@@ -34,7 +34,7 @@ setMethod("readPCR",
               column.names <- c(column.names, as.character(unname(unlist(raw.df[which(raw.df[,1]=="Well"), 29:ncol(raw.df)]))))
             }
             setnames(pcr.dt, column.names)
-            # set
+            # set proper data types for factor and numeric columns
             for (col in c(7L:15L, 18L, 20L, 25L, 26L, 27L)) set(pcr.dt, j=col, value=as.numeric(pcr.dt[[col]]))
             for (col in 1L:3L) set(pcr.dt, j=col, value=as.factor(pcr.dt[[col]]))
 
