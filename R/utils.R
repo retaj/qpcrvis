@@ -43,7 +43,7 @@ setMethod("setDesign",
 #' @export
 setGeneric(
   name="renameSamples",
-  def=function(pcr, ...) {
+  def=function(pcr, old, new) {
     standardGeneric("renameSamples")
   }
 )

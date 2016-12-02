@@ -4,7 +4,7 @@
 \alias{renameSamples}
 \title{renameSamples}
 \usage{
-renameSamples(pcr, ...)
+renameSamples(pcr, old, new)
 }
 \arguments{
 \item{pcr}{qPCR object to work on}

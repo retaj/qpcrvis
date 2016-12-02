@@ -14,12 +14,12 @@ NULL
 #' @importFrom RColorBrewer brewer.pal
 #' @export
 setGeneric("plotRQ",
-            function(pcr, minimal) standardGeneric("plotRQ"))
+            function(pcr, minimal=FALSE, ...) standardGeneric("plotRQ"))
 #' @aliases plotRQ,plotRQ-method
 #' @rdname plotRQ
 setMethod("plotRQ",
           signature("qPCR"),
-          function(pcr) {
+          function(pcr, ...) {
 
             # munge data
             DT <- pcr@data[target!=as.character(pcr@metadata$X2[pcr@metadata$X1=="Endogenous Control"])]
