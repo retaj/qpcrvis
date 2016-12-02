@@ -9,10 +9,14 @@ setOldClass(c('data.table', 'data.frame'))
 #' @slot design   factor vector of sample groupings for barplot coloring
 #' @slot pdata    processed data (e.g. recalculated relative expression)
 #' @importFrom data.table data.table
-#' @export
+#'
+#' @name   qPCR-class
+#' @rdname qPCR-class
+#'
+#' @exportClass qPCR
 setClass("qPCR",
-         slots = c(data      = "data.table",
-                   metadata  = "data.table",
-                   design    = "factor",
-                   pdata     = "data.table")
+         slots = c( data      = "data.table",
+                    metadata  = "data.table",
+                    design    = "factor",
+                    pdata     = "data.table")
 )

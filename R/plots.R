@@ -1,5 +1,8 @@
-# ---------------------------------------------------------------------------- #
-#' readPCR
+#' @include workingClasses.R
+NULL
+
+#' ---------------------------------------------------------------------------- #
+#' plotRQ
 #'
 #' plot relative quantification as returned by the machine
 #'
@@ -10,15 +13,13 @@
 #' @import ggplot2
 #' @importFrom RColorBrewer brewer.pal
 #' @export
-setGeneric(
-  name="plotRQ",
-  def=function(pcr, ...) {
-    standardGeneric("plotRQ")
-  }
-)
+setGeneric("plotRQ",
+            function(pcr, minimal) standardGeneric("plotRQ"))
+#' @aliases plotRQ,plotRQ-method
+#' @rdname plotRQ
 setMethod("plotRQ",
           signature("qPCR"),
-          definition=function(pcr, minimal=FALSE) {
+          function(pcr) {
 
             # munge data
             DT <- pcr@data[target!=as.character(pcr@metadata$X2[pcr@metadata$X1=="Endogenous Control"])]
