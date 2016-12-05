@@ -50,6 +50,7 @@ setMethod("plotRQ",
                               axis.title.x = element_text(size=20, family="Helvetica"),
                               axis.title.y = element_text(size=20, family="Helvetica"),
                               plot.title   = element_text(size=24, face="bold", family="Helvetica"),
+                              legend.text  = element_text(size=18, family="Helvetica"),
                               aspect.ratio = 0.5)
 
               if (length(pcr@design) > 0) {
