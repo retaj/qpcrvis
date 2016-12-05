@@ -136,7 +136,94 @@ setMethod("relExp",
 
 
 
+# ---------------------------------------------------------------------------- #
+#' mergePCR
+#'
+#' merge 2 qPCR objects
+#'
+#' details
+#'
+#' @param pcr1,pcr2  qPCR objects to work on
+#' @param ref_sample sample to normalize to
+#'
+#' @export
+setGeneric(
+  name="mergePCR",
+  def=function(pcr1, pcr2, ref_sample) {
+    standardGeneric("mergePCR")
+  }
+)
+setMethod("mergePCR",
+          signature("qPCR"),
+          definition=function(pcr1, pcr2, ref_sample) {
+            # TODO: check if both are normalized to the same ref_target!
 
+            DT.merged <- rbind(pcr1@data, pcr2@data)
+            levels(DT.merged$target) <- tolower(levels(DT.merged$target))
 
+            # dCts and dCt_sds are fine, i need to
+            # recalculate ddCt and RQ/RQmin/RQmax
+            DT <- DT.merged[,.(sample, target, Ct_mean, Ct_sd, dCt, dCt_sd)][order(target)]
+
+            ddcts <- numeric()
+            for (i in unique(DT$target)) {
+              ddcts <- append(ddcts, DT[target==i]$dCt - DT[target==i & sample==ref_sample]$dCt)
+            }
+            DT$ddCt <- ddcts
+
+            DT$RQ <- 2**(-DT$ddCt)
+            DT$RQmin <- 2**(-DT$ddCt - DT$dCt_sd)
+            DT$RQmax <- 2**(-DT$ddCt + DT$dCt_sd)
+
+            pcr <- new("qPCR", raw.data = data.table(),
+                               metadata = data.table(X1='Endogenous Control',
+                                                     X2=names(which(table(DT[RQ==1]$target) == length(levels(DT$sample))))), # TODO: this is dirty af
+                               data     = DT
+            )
+
+            return(pcr)
+          }
+)
+
+# ---------------------------------------------------------------------------- #
+#' reorderSamples
+#'
+#' set the order of samples
+#'
+#' details
+#'
+#' @param pcr qPCR objects to work on
+#' @param old old sample order
+#' @param new new sample order
+#'
+#' @export
+setGeneric(
+  name="reorderSamples",
+  def=function(pcr, old, new) {
+    standardGeneric("reorderSamples")
+  }
+)
+setMethod("reorderSamples",
+          signature("qPCR"),
+          definition=function(pcr, old, new) {
+            # stay on the character side of life
+            old <- as.character(old)
+
+            # exceptions! TODO: extract this to a separate function to be used by all renames, reorders etc
+            if (length(old) != length(new))
+              stop("different number of old and new sample names supplied: ", length(old), " vs. ", length(new), ".")
+
+            if (!identical(sort(old), sort(as.character(levels(pcr@data$sample)))))
+              stop("old sample names not identical to sample names in qPCR object.")
+
+            if (!(sum(old %in% new) == length(old)))
+              stop("different samples in old and nww")
+
+            # set new factors
+            pcr@data$sample <- factor(as.character(pcr@data$sample), levels=new)
+
+            return(pcr)
+          }
+)
 
 

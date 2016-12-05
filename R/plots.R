@@ -59,7 +59,7 @@ setMethod("plotRQ",
                   palettes <- c("Blues", "Greens", "Purples")
                   design.table <- table(pcr@design)
                   color.values <- character()
-                  for (i in 1:length(design.table)) color.values <- c(color.values, rev(brewer.pal(7, palettes[i]))[seq(2, 2+design.table[i], by=2)])
+                  for (i in 1:length(design.table)) color.values <- c(color.values, rev(brewer.pal(9, palettes[i]))[1:design.table[i]])
                   p <- p + scale_fill_manual(values=color.values)
 
                 } else {
