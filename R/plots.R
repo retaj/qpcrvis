@@ -14,7 +14,7 @@ NULL
 #' @importFrom RColorBrewer brewer.pal
 #' @export
 setGeneric("plotRQ",
-            function(pcr, minimal=FALSE, ...) standardGeneric("plotRQ"))
+            function(pcr, raw=FALSE, minimal=FALSE, ...) standardGeneric("plotRQ"))
 #' @aliases plotRQ,plotRQ-method
 #' @rdname plotRQ
 setMethod("plotRQ",
@@ -22,8 +22,13 @@ setMethod("plotRQ",
           function(pcr, ...) {
 
             # munge data
-            DT <- pcr@data[target!=as.character(pcr@metadata$X2[pcr@metadata$X1=="Endogenous Control"])]
-            DT <- unique(DT[,.(sample, target, RQ, RQmin, RQmax)])
+            if (raw == FALSE) {
+              DT <- pcr@data[target!=as.character(pcr@metadata$X2[pcr@metadata$X1=="Endogenous Control"])]
+              DT <- unique(DT[,.(sample, target, RQ, RQmin, RQmax)])
+            } else {
+              DT <- pcr@raw.data[target!=as.character(pcr@metadata$X2[pcr@metadata$X1=="Endogenous Control"])]
+              DT <- unique(DT[,.(sample, target, RQ, RQmin, RQmax)])
+            }
             #DT <- DT[order(sample)]
 
             errs <- aes(ymax = RQmax, ymin=RQmin)

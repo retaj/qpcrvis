@@ -8,9 +8,9 @@
 \title{---------------------------------------------------------------------------- #
 plotRQ}
 \usage{
-plotRQ(pcr, minimal = FALSE, ...)
+plotRQ(pcr, raw = FALSE, minimal = FALSE, ...)
 
-\S4method{plotRQ}{qPCR}(pcr, minimal = FALSE, ...)
+\S4method{plotRQ}{qPCR}(pcr, raw = FALSE, minimal = FALSE, ...)
 }
 \arguments{
 \item{filename}{}

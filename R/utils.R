@@ -99,11 +99,11 @@ setMethod("relExp",
           signature("qPCR"),
           definition=function(pcr, ref_sample, ref_target) {
 
-            if (!(ref_sample %in% pcr@data$sample) | !(ref_target %in% pcr@data$target)) {
+            if (!(ref_sample %in% pcr@raw.data$sample) | !(ref_target %in% pcr@raw.data$target)) {
               stop("reference sample or target gene not present in raw data")
             }
 
-            DT.raw <- pcr@data[,.(well, sample, target, Ct)]
+            DT.raw <- pcr@raw.data[,.(sample, target, Ct)]
             DT <- cbind(data.table(melt(dcast(DT.raw, target~sample, mean))),
                         data.table(melt(dcast(DT.raw, target~sample, sd))))
             setnames(DT, c("target", "sample", "Ct_mean", "target2", "sample2", "Ct_sd"))
@@ -128,7 +128,7 @@ setMethod("relExp",
             DT$RQmin <- 2**(-DT$ddCt - DT$dCt_sd)
             DT$RQmax <- 2**(-DT$ddCt + DT$dCt_sd)
 
-            pcr@pdata <- DT
+            pcr@data <- DT
 
             return(pcr)
           }

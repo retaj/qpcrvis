@@ -38,9 +38,10 @@ setMethod("readPCR",
             for (col in c(7L:15L, 18L, 20L, 25L, 26L, 27L)) set(pcr.dt, j=col, value=as.numeric(pcr.dt[[col]]))
             for (col in 1L:3L) set(pcr.dt, j=col, value=as.factor(pcr.dt[[col]]))
 
-            pcr.list <- new("qPCR", data     = pcr.dt,
+            pcr.list <- new("qPCR", raw.data = pcr.dt,
                                     metadata = rbind(meta1.dt, meta2.dt),
-                                    pdata    = data.table())
+                                    data    = data.table()
+                            )
             #pcr.list <- list(data     = pcr.dt,
             #                 metadata = rbind(meta1.dt, meta2.dt)) # for now, keep the data in a list with two data.tables (meta and data)
 

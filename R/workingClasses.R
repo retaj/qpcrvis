@@ -15,8 +15,8 @@ setOldClass(c('data.table', 'data.frame'))
 #'
 #' @exportClass qPCR
 setClass("qPCR",
-         slots = c( data      = "data.table",
-                    metadata  = "data.table",
-                    design    = "factor",
-                    pdata     = "data.table")
+         slots = c( raw.data = "data.table",
+                    metadata = "data.table",
+                    design   = "factor",
+                    data     = "data.table")
 )
