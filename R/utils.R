@@ -104,6 +104,13 @@ setMethod("relExp",
             }
 
             DT.raw <- pcr@raw.data[,.(sample, target, Ct)]
+
+            # Ct values can be NA, I can still drop them and calculate mean and SD from the rest
+            if (nrow(DT.raw[is.na(Ct)]) > 0) {
+              warning("raw Ct NA values will be ignored:\n", paste(capture.output(print(DT.raw[is.na(Ct)])), collapse="\n"))
+              DT.raw <- DT.raw[!is.na(Ct)]
+            }
+
             DT <- cbind(data.table(melt(dcast(DT.raw, target~sample, mean))),
                         data.table(melt(dcast(DT.raw, target~sample, sd))))
             setnames(DT, c("target", "sample", "Ct_mean", "target2", "sample2", "Ct_sd"))
