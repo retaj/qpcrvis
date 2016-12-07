@@ -10,12 +10,12 @@ An S4 class to represent a qPCR experiment.
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{data.table with qPCR data}
+\item{\code{raw.data}}{data.table with raw qPCR data}
 
 \item{\code{metadata}}{data.table with experimental metadata}
 
 \item{\code{design}}{factor vector of sample groupings for barplot coloring}
 
-\item{\code{pdata}}{processed data (e.g. recalculated relative expression)}
+\item{\code{data}}{processed data (e.g. recalculated relative expression)}
 }}
 
