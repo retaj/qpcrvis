@@ -14,12 +14,14 @@ NULL
 #' @importFrom RColorBrewer brewer.pal
 #' @export
 setGeneric("plotRQ",
-            function(pcr, raw=FALSE, minimal=FALSE, ...) standardGeneric("plotRQ"))
+            function(pcr, raw=FALSE, minimal=FALSE, plottype=c("bar", "point"), ...) standardGeneric("plotRQ"))
 #' @aliases plotRQ,plotRQ-method
 #' @rdname plotRQ
 setMethod("plotRQ",
           signature("qPCR"),
           function(pcr, ...) {
+
+            plottype <- match.arg(plottype)
 
             # munge data
             if (raw == FALSE) {
@@ -32,11 +34,28 @@ setMethod("plotRQ",
             #DT <- DT[order(sample)]
 
             errs <- aes(ymax = RQmax, ymin=RQmin)
-            dodge=position_dodge(width=0.75)
 
-            p <- ggplot(DT, aes(x=target, y=RQ, fill=sample)) +
-                  geom_bar(stat="identity", position=dodge, width=0.65) +
-                  geom_errorbar(errs, position=dodge, width=0.33)
+            if (plottype=="point") {
+              # TODO: write this robustly! (fetch values from design)
+              DT$group <- factor(ifelse(grepl("ko", DT$sample), "KO", "WT"))
+
+              meanz <- cbind(rbind(data.table(aggregate(RQ ~ target, data=DT[group=="KO"], FUN=mean)),
+                                   data.table(aggregate(RQ ~ target, data=DT[group=="WT"], FUN=mean))),
+                             group=rep(c("KO", "WT"), each=nrow(DT)/length(levels(DT$sample))))
+
+              dodge <- position_jitterdodge(jitter.width = .2, dodge.width = .75)
+
+              p <- ggplot(DT, aes(x=target, y=RQ, group=group, color=group)) +
+                    geom_pointrange(errs, position=dodge) +
+                    geom_crossbar(aes(ymin = RQ, ymax = RQ), data=meanz, position=position_dodge(width=0.75), width=0.5)
+
+            } else {
+              dodge=position_dodge(width=0.75)
+
+              p <- ggplot(DT, aes(x=target, y=RQ, fill=sample)) +
+                geom_bar(stat="identity", position=dodge, width=0.65) +
+                geom_errorbar(errs, position=dodge, width=0.33)
+            }
 
             if (minimal==FALSE) {
               p <- p +  scale_y_continuous(expand=c(0, 0)) +
@@ -49,8 +68,9 @@ setMethod("plotRQ",
                               axis.text.y  = element_text(size=18, family="Helvetica"),
                               axis.title.x = element_text(size=20, family="Helvetica"),
                               axis.title.y = element_text(size=20, family="Helvetica"),
-                              plot.title   = element_text(size=24, face="bold", family="Helvetica"),
-                              legend.text  = element_text(size=18, family="Helvetica"),
+                              plot.title   = element_text(size=24, family="Helvetica", face="bold", hjust=0.5),
+                              legend.text  = element_text(size=16, family="Helvetica"),
+                              legend.title = element_text(size=18, family="Helvetica"),
                               aspect.ratio = 0.5)
 
               if (length(pcr@design) > 0) {
@@ -61,7 +81,11 @@ setMethod("plotRQ",
                   design.table <- table(pcr@design)
                   color.values <- character()
                   for (i in 1:length(design.table)) color.values <- c(color.values, rev(brewer.pal(9, palettes[i]))[1:design.table[i]])
-                  p <- p + scale_fill_manual(values=color.values)
+                  if (plottype=="point") {
+                    p <- p + scale_color_manual(values=color.values)
+                  } else {
+                    p <- p + scale_fill_manual(values=color.values)
+                  }
 
                 } else {
 
