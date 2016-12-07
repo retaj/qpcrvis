@@ -1,14 +1,23 @@
 Package: qpcrvis
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Visualization of qPCR data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
-Encoding: UTF-8
+Author: Petar Glazar [aut, cre]
+Maintainer: Petar Glazar <petar.glazar@gmail.com>
+Description: A package for exploratory analysis and visualization of quantitative
+    PCR data. Provides a robust class for storing qPCR data, tools for 
+    (re)calculating ddCt values, merging data from different runs,
+    and a set of plotting functions.
+License: MIT
 LazyData: true
+Depends: 
+    R (>= 3.0.0)
+Imports: 
+    data.table
+    ggplot2
+    RColorBrewer
+    reshape2
+    xlsx
 RoxygenNote: 5.0.1
 Collate:
     'loadData.R'
