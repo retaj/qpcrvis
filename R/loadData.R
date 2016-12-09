@@ -40,7 +40,7 @@ setMethod("readPCR",
 
             pcr.list <- new("qPCR", raw.data = pcr.dt,
                                     metadata = rbind(meta1.dt, meta2.dt),
-                                    data    = data.table()
+                                    data     = data.table()
                             )
             #pcr.list <- list(data     = pcr.dt,
             #                 metadata = rbind(meta1.dt, meta2.dt)) # for now, keep the data in a list with two data.tables (meta and data)

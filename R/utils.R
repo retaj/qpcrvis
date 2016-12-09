@@ -351,3 +351,38 @@ setMethod("keepSamples",
             return(pcr)
           }
 )
+
+# ---------------------------------------------------------------------------- #
+#' qPCRsummary
+#'
+#' make a summary table of qPCR list
+#'
+#' details
+#'
+#' @param LS  a list of qPCR objects to work on
+#' @param keep character vector of samples to keep
+#'
+#' @export
+setGeneric(
+  name="qPCRsummary",
+  def=function(...) {
+    standardGeneric("qPCRsummary")
+  }
+)
+setMethod("qPCRsummary",
+          signature("qPCR"),
+          definition=function(...) {
+
+            return(table(do.call("rbind", lapply(list(...), function(x) x@raw.data[,.(sample, target)]))))
+
+          }
+)
+
+setMethod("qPCRsummary",
+          signature("list"),
+          definition=function(LS, ...) {
+
+            return(table(do.call("rbind", lapply(LS, function(x) x@raw.data[,.(sample, target)]))))
+
+          })
+
