@@ -9,10 +9,10 @@
 plotRQ}
 \usage{
 plotRQ(pcr, raw = FALSE, minimal = FALSE, plottype = c("bar", "point"),
-  ...)
+  reverseGroups = FALSE, ...)
 
 \S4method{plotRQ}{qPCR}(pcr, raw = FALSE, minimal = FALSE,
-  plottype = c("bar", "point"), ...)
+  plottype = c("bar", "point"), reverseGroups = FALSE, ...)
 }
 \arguments{
 \item{filename}{}

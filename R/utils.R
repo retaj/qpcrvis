@@ -281,4 +281,73 @@ setMethod("reorderSamples",
           }
 )
 
+# ---------------------------------------------------------------------------- #
+#' keepTargets
+#'
+#' keep only selected targets
+#'
+#' details
+#'
+#' @param pcr  qPCR objects to work on
+#' @param keep character vector of targets to keep
+#'
+#' @export
+setGeneric(
+  name="keepTargets",
+  def=function(pcr, keep) {
+    standardGeneric("keepTargets")
+  }
+)
+setMethod("keepTargets",
+          signature("qPCR"),
+          definition=function(pcr, keep) {
+            # stay on the character side of life
+            keep <- unique(as.character(keep))
 
+            # exceptions! TODO: extract this to a separate function to be used by all renames, reorders etc
+            if (sum(!(keep %in% levels(pcr@data$target))) > 0)
+              stop("unknown levels: ", paste0(keep[!(keep %in% levels(pcr@data$target))], collapse=", "), ".")
+
+            # set new factors
+            pcr@data <- pcr@data[target %in% keep]
+            pcr@data$target <- factor(pcr@data$target, levels=levels(pcr@data$target)[levels(pcr@data$target) %in% keep])
+
+            return(pcr)
+          }
+)
+
+
+# ---------------------------------------------------------------------------- #
+#' keepSamples
+#'
+#' keep only selected samples
+#'
+#' details
+#'
+#' @param pcr  qPCR objects to work on
+#' @param keep character vector of samples to keep
+#'
+#' @export
+setGeneric(
+  name="keepSamples",
+  def=function(pcr, keep) {
+    standardGeneric("keepSamples")
+  }
+)
+setMethod("keepSamples",
+          signature("qPCR"),
+          definition=function(pcr, keep) {
+            # stay on the character side of life
+            keep <- unique(as.character(keep))
+
+            # exceptions! TODO: extract this to a separate function to be used by all renames, reorders etc
+            if (sum(!(keep %in% levels(pcr@data$sample))) > 0)
+              stop("unknown levels: ", paste0(keep[!(keep %in% levels(pcr@data$sample))], collapse=", "), ".")
+
+            # set new factors
+            pcr@data <- pcr@data[sample %in% keep]
+            pcr@data$sample <- factor(pcr@data$sample, levels=levels(pcr@data$sample)[levels(pcr@data$sample) %in% keep])
+
+            return(pcr)
+          }
+)

@@ -14,7 +14,7 @@ NULL
 #' @importFrom RColorBrewer brewer.pal
 #' @export
 setGeneric("plotRQ",
-            function(pcr, raw=FALSE, minimal=FALSE, plottype=c("bar", "point"), ...) standardGeneric("plotRQ"))
+            function(pcr, raw=FALSE, minimal=FALSE, plottype=c("bar", "point"), reverseGroups=FALSE, ...) standardGeneric("plotRQ"))
 #' @aliases plotRQ,plotRQ-method
 #' @rdname plotRQ
 setMethod("plotRQ",
@@ -37,11 +37,16 @@ setMethod("plotRQ",
 
             if (plottype=="point") {
               # TODO: write this robustly! (fetch values from design)
-              DT$group <- factor(ifelse(grepl("ko", DT$sample), "KO", "WT"))
+              DT$group <- factor(ifelse(grepl("ko", DT$sample, ignore.case=TRUE), "KO", "WT"))
 
               meanz <- cbind(rbind(data.table(aggregate(RQ ~ target, data=DT[group=="KO"], FUN=mean)),
                                    data.table(aggregate(RQ ~ target, data=DT[group=="WT"], FUN=mean))),
                              group=rep(c("KO", "WT"), each=nrow(DT)/length(levels(DT$sample))))
+
+              if (reverseGroups == TRUE) {
+                DT$group    <-  factor(DT$group, levels=rev(levels(DT$group)))
+                meanz$group <- factor(meanz$group, levels=rev(levels(meanz$group)))
+              }
 
               dodge <- position_jitterdodge(jitter.width = .2, dodge.width = .75)
 
