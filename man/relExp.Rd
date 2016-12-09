@@ -4,7 +4,7 @@
 \alias{relExp}
 \title{relExp}
 \usage{
-relExp(pcr, ...)
+relExp(pcr, ref_sample, ref_target)
 }
 \arguments{
 \item{pcr}{qPCR object to work on}

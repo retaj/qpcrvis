@@ -26,9 +26,12 @@ setClass("qPCR",
 # show qPCR
 setMethod("show", "qPCR",
           function(object){
-            n.wells <- nrow(object@raw.data)
-            samples <- levels(object@raw.data$sample)
-            targets <- levels(object@raw.data$target)
+            #n.wells <- nrow(object@raw.data)
+            #samples <- levels(object@raw.data$sample)
+            #targets <- levels(object@raw.data$target)
+            n.wells <- nrow(object@data)
+            samples <- levels(object@data$sample)
+            targets <- levels(object@data$target)
 
             summ = paste0(n.wells, "-well qPCR for ", length(targets), " targets in ", length(samples), " samples.", "\n",
                           "samples: ", paste(samples, collapse=", "), "\n",

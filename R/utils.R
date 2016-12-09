@@ -61,10 +61,17 @@ setMethod("renameSamples",
               stop("old sample names not identical to sample names in qPCR object.")
 
             # reorder first
-            pcr@data$sample <- factor(pcr@data$sample, levels=old)
+            pcr@data$sample     <- factor(pcr@data$sample,     levels=old)
+            pcr@raw.data$sample <- factor(pcr@raw.data$sample, levels=old)
             # aaand rename
             #pcr@data$sample <- factor(pcr@data$sample, levels=new)
-            levels(pcr@data$sample) <- new
+            levels(pcr@data$sample)     <- new
+            levels(pcr@raw.data$sample) <- new
+
+            # fix it in metadata
+            if (!(old[which(old == .getRefSample(pcr))] %in%  new)) {
+              pcr@metadata$X2[pcr@metadata$X1 == 'Reference Sample'] <- new[which(old == .getRefSample(pcr))]
+            }
 
             return(pcr)
           }
@@ -98,14 +105,22 @@ setMethod("renameTargets",
             if (length(old) != length(new))
               stop("different number of old and new sample names supplied: ", length(old), " vs. ", length(new), ".")
 
-            if (!identical(sort(old), sort(as.character(levels(pcr@data$sample)))))
-              stop("old sample names not identical to sample names in qPCR object.")
+            if (!identical(sort(old), sort(as.character(levels(pcr@data$target)))))
+              stop("old target names not identical to sample names in qPCR object.")
 
             # reorder first
-            pcr@data$target <- factor(pcr@data$target, levels=old)
+            pcr@data$target     <- factor(pcr@data$target,     levels=old)
+            pcr@raw.data$target <- factor(pcr@raw.data$target, levels=old)
             # aaand rename
             #pcr@data$sample <- factor(pcr@data$sample, levels=new)
-            levels(pcr@data$target) <- new
+            levels(pcr@data$target)     <- new
+            levels(pcr@raw.data$target) <- new
+
+            # fix it in metadata
+            if (!(old[which(old == .getEndoCtrl(pcr))] %in% new)) {
+              pcr@metadata$X2[pcr@metadata$X1 == 'Endogenous Control'] <- new[which(old== .getEndoCtrl(pcr))]
+            }
+
 
             return(pcr)
           }
@@ -129,7 +144,7 @@ setMethod("renameTargets",
 #' @export
 setGeneric(
   name="relExp",
-  def=function(pcr, ...) {
+  def=function(pcr, ref_sample, ref_target) {
     standardGeneric("relExp")
   }
 )
@@ -373,7 +388,7 @@ setMethod("qPCRsummary",
           signature("qPCR"),
           definition=function(...) {
 
-            return(table(do.call("rbind", lapply(list(...), function(x) x@raw.data[,.(sample, target)]))))
+            return(table(do.call("rbind", lapply(list(...), function(x) x@data[,.(sample, target)]))))
 
           }
 )
@@ -382,7 +397,16 @@ setMethod("qPCRsummary",
           signature("list"),
           definition=function(LS, ...) {
 
-            return(table(do.call("rbind", lapply(LS, function(x) x@raw.data[,.(sample, target)]))))
+            return(table(do.call("rbind", lapply(LS, function(x) x@data[,.(sample, target)]))))
 
           })
 
+.getRefSample <- function(pcr) {
+  # returns the reference sample
+  pcr@metadata$X2[pcr@metadata$X1 == "Reference Sample"]
+}
+
+.getEndoCtrl <- function(pcr) {
+  # returns the reference sample
+  pcr@metadata$X2[pcr@metadata$X1 == "Endogenous Control"]
+}
