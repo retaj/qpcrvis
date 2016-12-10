@@ -203,7 +203,7 @@ setMethod("relExp",
 #'
 #' details
 #'
-#' @param pcr1,pcr2  qPCR objects to work on
+#' @param pcrs  a list of qPCR objects to work on
 #' @param ref_sample sample to normalize to
 #'
 #' @export
@@ -228,7 +228,7 @@ setMethod("mergePCR",
 
             #DT.merged <- rbind(pcr1@data, pcr2@data)
             DT.merged <- do.call("rbind", pcrs)
-            levels(DT.merged$target) <- tolower(levels(DT.merged$target))
+            # levels(DT.merged$target) <- tolower(levels(DT.merged$target))
 
             # dCts and dCt_sds are fine, i need to
             # recalculate ddCt and RQ/RQmin/RQmax
