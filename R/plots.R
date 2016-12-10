@@ -128,6 +128,9 @@ setMethod("plotRawCt",
           signature("qPCR"),
           function(pcr, raw=TRUE) {
 
+            if (nrow(pcr@raw.data) == 0 & raw==TRUE)
+              stop("raw.data slot is empty, maybe you would want to use raw=FALSE")
+
             if (raw == TRUE) {
               DT <- pcr@raw.data[,.(sample, target, Ct)]
               p <- ggplot(DT, aes(x=target, y=Ct, fill=sample)) + geom_bar(stat="identity", position="dodge")
