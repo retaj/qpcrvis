@@ -13,7 +13,7 @@
 #' @export
 setGeneric(
   name="setDesign",
-  def=function(pcr, ...) {
+  def=function(pcr, groups) {
     standardGeneric("setDesign")
   }
 )
