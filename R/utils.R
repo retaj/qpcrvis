@@ -209,19 +209,19 @@ setMethod("relExp",
 #' @export
 setGeneric(
   name="mergePCR",
-  def=function(pcrs, ref_sample, ref_gene) {
+  def=function(pcrs, ref_sample, ref_target) {
     standardGeneric("mergePCR")
   }
 )
 setMethod("mergePCR",
           signature("list"),
-          definition=function(pcrs, ref_sample, ref_gene) {
+          definition=function(pcrs, ref_sample, ref_target) {
             # TODO: write this using ... later
 
             if (!hasArg(ref_sample))
               stop("please provide a reference sample!")
-            if (!hasArg(ref_gene))
-              stop("please provide a gene used to normalize plates!")
+            if (!hasArg(ref_target))
+              stop("please provide a target used to normalize plates!")
 
             #pcrs <- lapply(list(...), function(x) x@data)
             # TODO: check if both are normalized to the same ref_target!
@@ -247,7 +247,7 @@ setMethod("mergePCR",
             pcr <- new("qPCR", raw.data = data.table(),
                                metadata = data.table(X1='Endogenous Control',
                                                      #X2=names(which(table(DT[RQ==1]$target) == length(levels(DT$sample))))), # TODO: this is dirty af
-                                                     X2=ref_gene), # TODO: this is dirty af
+                                                     X2=ref_target), # TODO: this is dirty af
                                data     = DT
             )
 
