@@ -4,12 +4,12 @@
 \alias{mergePCR}
 \title{mergePCR}
 \usage{
-mergePCR(pcrs, ref_sample, ref_gene)
+mergePCR(pcrs, ref_sample, ref_target)
 }
 \arguments{
-\item{ref_sample}{sample to normalize to}
+\item{pcrs}{a list of qPCR objects to work on}
 
-\item{pcr1, pcr2}{qPCR objects to work on}
+\item{ref_sample}{sample to normalize to}
 }
 \description{
 merge 2 qPCR objects

@@ -156,7 +156,7 @@ setMethod("relExp",
               stop("reference sample or target gene not present in raw data")
             }
 
-            DT.raw <- pcr@raw.data[,.(sample, target, Ct)]
+            DT.raw <- pcr@raw.data[!is.na(sample)][,.(sample, target, Ct)]
 
             # Ct values can be NA, I can still drop them and calculate mean and SD from the rest
             if (nrow(DT.raw[is.na(Ct)]) > 0) {

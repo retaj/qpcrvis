@@ -4,7 +4,7 @@
 \alias{setDesign}
 \title{setDesign}
 \usage{
-setDesign(pcr, ...)
+setDesign(pcr, groups)
 }
 \arguments{
 \item{pcr}{qPCR object to work on}
