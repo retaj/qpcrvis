@@ -287,7 +287,7 @@ setMethod("reorderSamples",
               stop("old sample names not identical to sample names in qPCR object.")
 
             if (!(sum(old %in% new) == length(old)))
-              stop("different samples in old and nww")
+              stop("different samples in old and new")
 
             # set new factors
             pcr@data$sample <- factor(as.character(pcr@data$sample), levels=new)
