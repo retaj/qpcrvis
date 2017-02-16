@@ -17,4 +17,3 @@ set design of a qPCR experiment
 \details{
 details
 }
-

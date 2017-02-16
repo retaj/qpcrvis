@@ -17,4 +17,3 @@ keep only selected targets
 \details{
 details
 }
-

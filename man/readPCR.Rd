@@ -15,4 +15,3 @@ read raw qPCR data from an XLSX file
 \details{
 details
 }
-

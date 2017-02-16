@@ -16,4 +16,3 @@ renameTargets(pcr, old, new)
 \description{
 set new target names for a qPCR object
 }
-

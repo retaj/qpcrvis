@@ -20,8 +20,9 @@ setMethod("readPCR",
           signature("character"),
           definition=function(filename) {
             raw.df <- read.xlsx(filename, 1, header=FALSE, stringsAsFactors=FALSE)
+            raw.df <- raw.df[rowSums(is.na(raw.df)) < ncol(raw.df),]
             meta1.dt <- data.table(raw.df[1:6,1:2]) # first 6 rows
-            meta2.dt <- data.table(raw.df[(nrow(raw.df)-4):nrow(raw.df),1:2]) # last 5 rows
+            meta2.dt <- data.table(raw.df[(nrow(raw.df)-3):nrow(raw.df),1:2]) # last 4 rows
             pcr.dt   <- data.table(raw.df[(which(raw.df[,1]=="Well")+1):(nrow(raw.df)-4),])
             # first 28 column names should be stable, if there is more just copy from raw
             column.names <- c("well", "sample", "target", "task", "reporter", "quencher",

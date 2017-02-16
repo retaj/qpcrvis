@@ -14,4 +14,3 @@ renameSamples(pcr, old, new)
 \description{
 set new sample names for a qPCR object
 }
-

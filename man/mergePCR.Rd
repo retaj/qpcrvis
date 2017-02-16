@@ -17,4 +17,3 @@ merge 2 qPCR objects
 \details{
 details
 }
-

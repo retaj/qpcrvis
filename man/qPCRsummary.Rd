@@ -17,4 +17,3 @@ make a summary table of qPCR list
 \details{
 details
 }
-

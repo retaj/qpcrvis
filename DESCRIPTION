@@ -1,7 +1,7 @@
 Package: qpcrvis
 Type: Package
 Title: Visualization of qPCR data
-Version: 0.1.0
+Version: 0.2.0
 Author: Petar Glazar [aut, cre]
 Maintainer: Petar Glazar <petar.glazar@gmail.com>
 Description: A package for exploratory analysis and visualization of quantitative
@@ -18,7 +18,7 @@ Imports:
     RColorBrewer,
     reshape2,
     xlsx
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Collate:
     'loadData.R'
     'workingClasses.R'

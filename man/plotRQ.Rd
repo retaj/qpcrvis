@@ -3,8 +3,8 @@
 \docType{methods}
 \name{plotRQ}
 \alias{plotRQ}
-\alias{plotRQ,plotRQ-method}
 \alias{plotRQ,qPCR-method}
+\alias{plotRQ,plotRQ-method}
 \title{---------------------------------------------------------------------------- #
 plotRQ}
 \usage{
@@ -23,4 +23,3 @@ plot relative quantification as returned by the machine
 \details{
 details
 }
-

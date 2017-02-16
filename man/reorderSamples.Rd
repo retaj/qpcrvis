@@ -19,4 +19,3 @@ set the order of samples
 \details{
 details
 }
-
