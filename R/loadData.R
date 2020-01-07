@@ -39,10 +39,13 @@ setMethod("readPCR",
             for (col in c(7L:15L, 18L, 20L, 25L, 26L, 27L)) set(pcr.dt, j=col, value=as.numeric(pcr.dt[[col]]))
             for (col in 1L:3L) set(pcr.dt, j=col, value=as.factor(pcr.dt[[col]]))
 
-            pcr <- new("qPCR", raw.data = pcr.dt,
-                               metadata = rbind(meta1.dt, meta2.dt),
-                               data     = data.table()
+            pcr <- new("qPCR", raw.data   = pcr.dt,
+                               metadata   = rbind(meta1.dt, meta2.dt),
+                               data       = data.table()
                             )
+            pcr@ref_sample <- .getRefSample(pcr)
+            pcr@ref_target <- .getEndoCtrl(pcr)
+
             # normalize to defaults
             pcr <- relExp(pcr, ref_sample = .getRefSample(pcr), ref_target = .getEndoCtrl(pcr))
 

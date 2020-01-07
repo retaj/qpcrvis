@@ -15,10 +15,12 @@ setOldClass(c('data.table', 'data.frame'))
 #'
 #' @exportClass qPCR
 setClass("qPCR",
-         slots = c( raw.data = "data.table",
-                    metadata = "data.table",
-                    design   = "factor",
-                    data     = "data.table")
+         slots = c( raw.data   = "data.table",
+                    metadata   = "data.table",
+                    design     = "factor",
+                    ref_sample = "character",
+                    ref_target = "character",
+                    data       = "data.table")
 )
 
 
@@ -35,7 +37,9 @@ setMethod("show", "qPCR",
 
             summ = paste0(n.wells, "-well qPCR for ", length(targets), " targets in ", length(samples), " samples.", "\n",
                           "samples: ", paste(samples, collapse=", "), "\n",
-                          "targets: ", paste(targets, collapse=", ")
+                          "targets: ", paste(targets, collapse=", "), "\n",
+                          "reference sample: ", object@ref_sample, "\n",
+                          "reference target: ", object@ref_target
                           )
             message(summ)
           })

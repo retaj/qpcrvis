@@ -18,7 +18,7 @@ Imports:
     RColorBrewer,
     reshape2,
     xlsx
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Collate:
     'loadData.R'
     'workingClasses.R'
